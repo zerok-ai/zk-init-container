@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-echo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-echo
+  template:
+    metadata:
+      labels:
+        app: test-echo
+    spec:
+      initContainers:
+        - name: init-container
+          image: us-west1-docker.pkg.dev/zerok-dev/stage/zk-init-container:dev
+      containers:
+        - name: test-echo
+          image: hashicorp/http-echo
+          args:
+            - "-text=Hello, World!"
+          ports:
+            - containerPort: 5678

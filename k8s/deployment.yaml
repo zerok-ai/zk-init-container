@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zk-init-container
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zk-init-container
+  template:
+    metadata:
+      labels:
+        app: zk-init-container
+    spec:
+      containers:
+        - name: zk-init-container
+          image: us-west1-docker.pkg.dev/zerok-dev/stage/zk-init-container:dev
+          env:
+            - name: URL
+              valueFrom:
+                configMapKeyRef:
+                  name: zk-init-container
+                  key: url

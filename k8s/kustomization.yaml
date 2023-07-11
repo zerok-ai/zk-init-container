@@ -1,5 +1,0 @@
-# Adds namespace to all resources.
-namespace: zk-client
-resources:
-  - deployment.yaml
-  - configmap.yaml

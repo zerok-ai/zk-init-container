@@ -1,4 +1,4 @@
-package cmd
+package main
 
 import (
 	"fmt"
@@ -7,22 +7,33 @@ import (
 	"time"
 )
 
+var envVar = "URL"
+var retryInterval = 2 * time.Second
+
 func main() {
-	url := os.Getenv("URL")
+	url := os.Getenv(envVar)
 	if url == "" {
 		fmt.Println("URL not provided")
-		os.Exit(1)
+		panic("URL not provided")
 	}
 
 	// Start hitting the URL
 	for {
 		fmt.Println("Hitting URL: ", url)
 		resp, err := http.Get(url)
-		if err == nil && resp.StatusCode == http.StatusOK {
-			fmt.Println("Received 200 OK response")
+		if err == nil && RespCodeIsOk(resp.StatusCode) {
+			fmt.Println("Received OK response")
 			break
 		}
 		fmt.Println("Retrying...")
-		time.Sleep(2 * time.Second)
+		time.Sleep(retryInterval)
 	}
+}
+
+func RespCodeIsOk(status int) bool {
+	if status > 199 && status < 300 {
+		return true
+	}
+	return false
+
 }

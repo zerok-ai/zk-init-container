@@ -13,5 +13,6 @@ COPY ${APP_FILE} /app/myapp
 # Set executable permissions for the Go executable
 RUN chmod +x /app/myapp
 
+USER 65532:65532
 # Run the Go executable
 CMD ["./myapp"]

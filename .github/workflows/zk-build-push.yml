@@ -93,7 +93,7 @@ jobs:
       - name: Docker build
         run: |-
           echo "DOCKER_TAG=$VERSION"
-          docker build  --tag "$DOCKER_REG/$PROJECT_ID/$DOCKER_REPO/$DOCKER_IDENTIFIER/$APP_NAME:$GITHUB_SHA" .
+          docker build --build-arg APP_FILE=zk-init --tag "$DOCKER_REG/$PROJECT_ID/$DOCKER_REPO/$DOCKER_IDENTIFIER/$APP_NAME:$GITHUB_SHA" .
 
       - name: Docker Tag
         run: |-
